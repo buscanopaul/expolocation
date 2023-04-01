@@ -5,6 +5,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 export default function App() {
   const [location, setLocation] = useState();
   const [address, setAddress] = useState();
+  const [reverse, setReverse] = useState();
 
   Location.setGoogleApiKey('AIzaSyDr0K3wrFwCwJzLCZM172D44pTywulZmmw');
 
@@ -32,17 +33,12 @@ export default function App() {
   };
 
   const reverseGeocode = async () => {
-    const reverseGeocodedAddress = await Location.reverseGeocodeAsync(
-      {
-        longitude: location.coords.longitude,
-        latitude: location.coords.latitude,
-      },
-      {
-        useGoogleMaps: true,
-      }
-    );
+    const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
+      longitude: location.coords.longitude,
+      latitude: location.coords.latitude,
+    });
 
-    console.log(reverseGeocodedAddress);
+    setReverse(reverseGeocodedAddress);
   };
 
   return (
@@ -57,7 +53,8 @@ export default function App() {
         title="Reverse Geocode current location"
         onPress={reverseGeocode}
       />
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text>{JSON.stringify(location)}</Text>
+      <Text>{JSON.stringify(reverse)}</Text>
     </View>
   );
 }
